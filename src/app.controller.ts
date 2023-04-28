@@ -4,6 +4,7 @@ import {
   ApiOperation,
   ApiProperty,
   getSchemaPath,
+  refs,
 } from '@nestjs/swagger';
 
 class Pet {
@@ -21,6 +22,7 @@ class HelloRequest {
   @ApiProperty({
     description: 'name',
     oneOf: [{ $ref: getSchemaPath(Pet) }, { $ref: getSchemaPath(Cat) }],
+    type: () => Object
   })
   name: Pet | Cat;
 }
