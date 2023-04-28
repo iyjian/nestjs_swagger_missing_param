@@ -6,18 +6,23 @@ import {
   getSchemaPath,
 } from '@nestjs/swagger';
 
-class StringInQuery {
+class Pet {
   @ApiProperty()
-  in: string;
+  petName: string;
 }
 
-@ApiExtraModels(StringInQuery)
+class Cat {
+  @ApiProperty()
+  catName: string;
+}
+
+@ApiExtraModels(Pet, Cat)
 class HelloRequest {
   @ApiProperty({
     description: 'name',
-    oneOf: [{ type: 'string' }, { $ref: getSchemaPath(StringInQuery) }],
+    oneOf: [{ $ref: getSchemaPath(Pet) }, { $ref: getSchemaPath(Cat) }],
   })
-  name: string | StringInQuery;
+  name: Pet | Cat;
 }
 
 @Controller()
@@ -26,7 +31,7 @@ export class AppController {
 
   @Get()
   @ApiOperation({
-    summary: 'Hello world',
+    summary: 'Hello',
   })
   getHello(@Query() helloRequest: HelloRequest) {
     return helloRequest;
